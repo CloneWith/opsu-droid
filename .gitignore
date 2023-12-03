@@ -1,14 +1,47 @@
+/Import/
+/Replays/
+/Screenshots/
+/Skins/
+/SongPacks/
+/Songs/
+/Temp/
+/.opsu.log
+/.opsu.cfg
+/.opsu.db*
+/.opsu_scores.db
+
 # Compiled class file
 *.class
+
+# Eclipse
+/.settings/
+/bin/
+.metadata
+.classpath
+.project
+.externalToolBuilders/
 
 # Log file
 *.log
 
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
 # BlueJ files
 *.ctxt
 
+# Gradle
+.gradle
+build/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+Thumbs.db
+/target
 
 # Package Files #
 *.jar

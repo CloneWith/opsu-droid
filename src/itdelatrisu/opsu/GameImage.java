@@ -116,7 +116,7 @@ public enum GameImage {
 	REVERSEARROW ("reversearrow", "png"),
 	SLIDER_TICK ("sliderscorepoint", "png"),
 
-	// Spinner
+	// Old Spinner
 	SPINNER_CIRCLE ("spinner-circle", "png"),
 	SPINNER_APPROACHCIRCLE ("spinner-approachcircle", "png") {
 		@Override

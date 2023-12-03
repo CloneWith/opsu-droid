@@ -70,18 +70,22 @@ public class SkinLoader {
 	public static Skin loadSkin(File dir) {
 		File skinFile = new File(dir, CONFIG_FILENAME);
 		Skin skin = new Skin(dir);
-		if (!skinFile.isFile())  // missing skin.ini
+		if (!skinFile.isFile()){  // missing skin.ini
 			return skin;
+		}
 
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(skinFile), "UTF-8"))) {
 			String line = in.readLine();
 			String tokens[] = null;
+			skin.INI_STATUS = true;
 			while (line != null) {
 				line = line.trim();
 				if (!isValidLine(line)) {
 					line = in.readLine();
 					continue;
 				}
+				// TODO: This implied minimal skin settings. Read osu!wiki for details and additions.
+				// TODO: can add the use of commands "Author" and "Name" to show accurate skin name and author instead of folder name
 				switch (line) {
 				case "[General]":
 					while ((line = in.readLine()) != null) {
@@ -177,6 +181,7 @@ public class SkinLoader {
 							break;
 						if ((tokens = tokenize(line)) == null)
 							continue;
+							// TODO: Is there valid support for RGBA format? don't know
 						try {
 							String[] rgb = tokens[1].split(",");
 							Color color = new Color(

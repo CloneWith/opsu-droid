@@ -382,17 +382,25 @@ public class Options {
 		},
 		SKIN ("Skin", "Skin", "") {
 			private String[] itemList = null;
+			private String[] DirList = null;
 
 			@Override
 			public boolean isRestartRequired() { return true; }
+			// <TODO> Can we directly load skins without restart here?
 
 			/** Creates the list of available skins. */
 			private void createSkinList() {
 				File[] dirs = SkinLoader.getSkinDirectories(getSkinRootDir());
 				itemList = new String[dirs.length + 1];
+				DirList = new String[dirs.length + 1];
 				itemList[0] = Skin.DEFAULT_SKIN_NAME;
-				for (int i = 0; i < dirs.length; i++)
-					itemList[i + 1] = dirs[i].getName();
+				DirList[0] = null;
+				for (int i = 0; i < dirs.length; i++){
+					Skin r = SkinLoader.loadSkin(dirs[i]);
+					// itemList[i + 1] = r.getName() + "(" + r.getAuthor() + ")";
+					itemList[i + 1] = r.getName();
+					DirList[i + 1] = dirs[i].getName();
+				}
 			}
 
 			@Override
