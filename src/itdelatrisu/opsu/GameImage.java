@@ -210,14 +210,18 @@ public enum GameImage {
 	MOD_NO_FAIL ("selection-mod-nofail", "png", false, false),
 	MOD_HARD_ROCK ("selection-mod-hardrock", "png", false, false),
 	MOD_SUDDEN_DEATH ("selection-mod-suddendeath", "png", false, false),
+	MOD_PERFECT ("selection-mod-perfect", "png", false, false),
 	MOD_SPUN_OUT ("selection-mod-spunout", "png", false, false),
 	MOD_AUTO ("selection-mod-autoplay", "png", false, false),
 	MOD_HALF_TIME ("selection-mod-halftime", "png", false, false),
 	MOD_DOUBLE_TIME ("selection-mod-doubletime", "png", false, false),
+	MOD_NIGHTCORE ("selection-mod-nightcore", "png", false, false),
 	MOD_HIDDEN ("selection-mod-hidden", "png", false, false),
 	MOD_FLASHLIGHT ("selection-mod-flashlight", "png", false, false),
 	MOD_RELAX ("selection-mod-relax", "png", false, false),
 	MOD_AUTOPILOT ("selection-mod-relax2", "png", false, false),
+	MOD_CINEMA ("selection-mod-cinema", "png", false, false),
+	MOD_TARGET ("selection-mod-target", "png", false, false),
 
 	// Selection Buttons
 	SELECTION_MODS ("selection-mods", "png", false, false){
