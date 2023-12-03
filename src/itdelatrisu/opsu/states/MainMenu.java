@@ -109,7 +109,7 @@ public class MainMenu extends BasicGameState {
 	private MenuButton playButton, exitButton;
 
 	/** Music control buttons. */
-	private MenuButton musicPlay, musicPause, musicNext, musicPrevious;
+	private MenuButton musicPlay, musicPause, musicNext, musicPrevious, musicReplay;
 
 	/** Button linking to Downloads menu. */
 	private MenuButton downloadsButton;
@@ -242,10 +242,12 @@ public class MainMenu extends BasicGameState {
 		int musicInfoOffset = (int) (musicInfoHeight * 0.25f);
 		int musicWidth  = GameImage.MUSIC_PLAY.getImage().getWidth();
 		int musicHeight = GameImage.MUSIC_PLAY.getImage().getHeight();
+		musicReplay = new MenuButton(GameImage.MUSIC_PLAY.getImage(), width - (3 * musicWidth), musicInfoOffset + musicHeight / 1.5f);
 		musicPlay     = new MenuButton(GameImage.MUSIC_PLAY.getImage(), width - (2 * musicWidth), musicInfoOffset + musicHeight / 1.5f);
 		musicPause    = new MenuButton(GameImage.MUSIC_PAUSE.getImage(), width - (2 * musicWidth), musicInfoOffset + musicHeight / 1.5f);
 		musicNext     = new MenuButton(GameImage.MUSIC_NEXT.getImage(), width - musicWidth, musicInfoOffset + musicHeight / 1.5f);
-		musicPrevious = new MenuButton(GameImage.MUSIC_PREVIOUS.getImage(), width - (3 * musicWidth), musicInfoOffset + musicHeight / 1.5f);
+		musicPrevious = new MenuButton(GameImage.MUSIC_PREVIOUS.getImage(), width - (4 * musicWidth), musicInfoOffset + musicHeight / 1.5f);
+		musicReplay.setHoverExpand(1.5f);
 		musicPlay.setHoverExpand(1.5f);
 		musicPause.setHoverExpand(1.5f);
 		musicNext.setHoverExpand(1.5f);
@@ -429,6 +431,7 @@ public class MainMenu extends BasicGameState {
 			musicPause.draw();
 		else
 			musicPlay.draw();
+		musicReplay.draw();
 		musicNext.draw();
 		musicPrevious.draw();
 
@@ -533,6 +536,7 @@ public class MainMenu extends BasicGameState {
 		// ensure only one button is in hover state at once
 		boolean noHoverUpdate = musicPositionBarContains(mouseX, mouseY);
 		boolean contains = musicPlay.contains(mouseX, mouseY);
+		musicReplay.hoverUpdate(delta, !noHoverUpdate && musicReplay.contains(mouseX, mouseY));
 		musicPlay.hoverUpdate(delta, !noHoverUpdate && contains);
 		musicPause.hoverUpdate(delta, !noHoverUpdate && contains);
 		noHoverUpdate |= contains;
@@ -632,8 +636,10 @@ public class MainMenu extends BasicGameState {
 		// tooltips
 		if (musicPositionBarContains(mouseX, mouseY))
 			UI.updateTooltip(delta, "Click to seek to a specific point in the song.", false);
+		else if (musicReplay.contains(mouseX, mouseY))
+			UI.updateTooltip(delta, "Play", false);
 		else if (musicPlay.contains(mouseX, mouseY))
-			UI.updateTooltip(delta, (MusicController.isPlaying()) ? "Pause" : "Play", false);
+			UI.updateTooltip(delta, (MusicController.isPlaying()) ? "Pause" : "Resume", false);
 		else if (musicNext.contains(mouseX, mouseY))
 			UI.updateTooltip(delta, "Next track", false);
 		else if (musicPrevious.contains(mouseX, mouseY))
@@ -701,6 +707,8 @@ public class MainMenu extends BasicGameState {
 			playButton.resetHover();
 		if (!exitButton.contains(mouseX, mouseY, 0.25f))
 			exitButton.resetHover();
+		if (!musicReplay.contains(mouseX, mouseY))
+			musicReplay.resetHover();
 		if (!musicPlay.contains(mouseX, mouseY))
 			musicPlay.resetHover();
 		if (!musicPause.contains(mouseX, mouseY))
@@ -769,7 +777,7 @@ public class MainMenu extends BasicGameState {
 				UI.getNotificationManager().sendBarNotification("Pause");
 			} else if (!MusicController.isTrackLoading()) {
 				MusicController.resume();
-				UI.getNotificationManager().sendBarNotification("Play");
+				UI.getNotificationManager().sendBarNotification("Resume");
 			}
 			return;
 		} else if (musicNext.contains(x, y)) {
@@ -780,6 +788,10 @@ public class MainMenu extends BasicGameState {
 			previousTrack();
 			UI.getNotificationManager().sendBarNotification("<< Prev");
 			return;
+		} else if (musicReplay.contains(x, y)) {
+			MusicController.playAt(0, false);
+			musicInfoProgress.setTime(0);
+			UI.getNotificationManager().sendBarNotification("Play");
 		}
 
 		// downloads button actions
